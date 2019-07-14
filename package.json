@@ -1,0 +1,19 @@
+{
+  "name": "@graphyapp/backend-challenge",
+  "version": "0.1.0",
+  "license": "UNLICENSED",
+  "private": true,
+  "scripts": {
+    "start": "NODE_ENV=production node src/index.js",
+    "dev": "NODE_ENV=development nodemon src/index.js"
+  },
+  "dependencies": {
+    "d3-scale": "^3.0.0",
+    "express": "^4.17.1",
+    "ioredis": "^4.11.2",
+    "portfinder": "^1.0.20"
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.1"
+  }
+}
