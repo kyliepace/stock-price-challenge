@@ -40,9 +40,9 @@ curl -d symbol=MSFT \
 -G https://stock-data.graphy.now.sh
 ```
 
-1. Stock data is available Mon–Fri and covers 20 years.
-2. Implement a basic caching mechanism to cache repeat requests with the same input (symbol and date range). Use Redis for that.
-3. Examples of responses are given below. Assuming the API you'll build runs locally at `localhost:8000`.
+6. Stock data is available Mon–Fri and covers 20 years.
+7. Implement a basic caching mechanism to cache repeat requests with the same input (symbol and date range). Use Redis for that.
+8. Examples of responses are given below. Assuming the API you'll build runs locally at `localhost:8000`.
 
 ## Examples
 
@@ -88,13 +88,14 @@ curl -d symbol=SPOT \
                 +           +
 ```
 
-## Requirements
+## Guidelines & some tips
 
-1. We don't expect 100% test coverage but we do expect to see at least some level of testing.
-2. You should not use any third-party plotting library (gnuplot etc.) that generates plots for you. It's absolutely fine if the API you write generates charts that are very basic (as shown in the examples).
-3. To make things simpler, the generated line charts can be of any width or height.
-4. You may use TypeScript if you want to.
-5. We value attention to small details. Be creative! 🎨
+1. We recommend using [d3-scale](https://github.com/d3/d3-scale) to map values to the (x, y) position on the ASCII line chart. Read about [linear scales in D3](https://observablehq.com/@d3/d3-scalelinear). Or, if you prefer, you can skip D3 entirely and do it from scratch.
+2. We don't expect 100% test coverage but we do expect to see at least some level of testing.
+3. Please don't use any third-party plotting library (gnuplot etc.) that generates plots for you. It's absolutely fine if the API you write generates charts that are very basic (as shown in the examples).
+4. To make things simpler, the generated line charts can be of any width or height.
+5. You may use TypeScript if you want to.
+6. We value attention to small details. Be creative! 🎨
 
 ## How to submit your code
 
