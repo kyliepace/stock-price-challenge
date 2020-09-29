@@ -99,5 +99,5 @@ curl -d symbol=SPOT \
 
 ## How to submit your code
 
-1. If you use GitHub, upload your solution to GitHub and make the repo private. Add [@romans](https://github.com/romans) as a collaborator ([how do I do that?](https://help.github.com/en/articles/inviting-collaborators-to-a-personal-repository)).
+1. If you use GitHub, upload your solution to GitHub and make the repo private. Add [@mikeporterdev](https://github.com/mikeporterdev), [@iloire](https://github.com/iloire), and [@igorsechyn](https://github.com/igorsechyn) as collaborators ([how do I do that?](https://help.github.com/en/articles/inviting-collaborators-to-a-personal-repository)).
 2. Alternatively, zip the repo and [email it to us](mailto:roman@graphyapp.com).
