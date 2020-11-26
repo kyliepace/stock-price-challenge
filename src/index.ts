@@ -1,7 +1,7 @@
-const express = require('express');
-const portfinder = require('portfinder');
-const Redis = require('ioredis');
-const { scaleLinear } = require('d3-scale');
+import express from 'express';
+import portfinder from 'portfinder';
+import Redis from 'ioredis';
+import { scaleLinear } from 'd3-scale';
 
 // init express
 const app = express();
