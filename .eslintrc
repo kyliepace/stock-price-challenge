@@ -1,0 +1,41 @@
+{
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/eslint-recommended"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaFeatures": {
+        "modules": true
+    },
+    "ecmaVersion": 6,
+    "sourceType": "module",
+    "project": "./tsconfig.json"
+  },
+  "plugins": [
+    "import",
+    "mocha",
+    "@typescript-eslint"
+  ],
+  "globals": {
+    "NODE_ENV": true
+  },
+  "env": {
+    "browser": false,
+    "node": true,
+    "mocha": true,
+    "es6": true
+  },
+  "rules": {
+    "mocha/no-exclusive-tests": "error",
+    "mocha/no-identical-title": "error",
+    "mocha/no-nested-tests": "error",
+    "array-callback-return": "off",
+    "no-plusplus": "off",
+    "arrow-parens": ["error", "always"],
+    "max-len": ["error", {"code": 250, "ignoreComments": true, "ignoreRegExpLiterals": true }],
+    "import/no-unresolved": "off",
+    "import/extensions": "off",
+    "import/prefer-default-export": "off"
+  }
+}
