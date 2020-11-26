@@ -12,6 +12,7 @@
     "watch": "node --inspect=5858 -r ts-node/register ./src/index.ts",
     "dev": "cross-env NODE_ENV=development nodemon src/index.ts",
     "compile": "rm -Rf ./lib && tsc",
+    "test": "ts-mocha --colors \"test/**/*.ts\" --exit --recursive",
     "lint": "eslint --ext .js,.ts src/",
     "lint:fix": "eslint --fix --ext .js,.ts src/"
   },
