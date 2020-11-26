@@ -16,3 +16,4 @@ If you are using vscode, enable auto attach node process to make use of the vsco
 ## What I Did Differently
 
 ## What I Would Do Differently If I Were to Spend More Time On This
+- add a more sophisticated logger, for example winston, or if using GCP their logging client
