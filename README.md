@@ -1,17 +1,18 @@
-![Graphy Careers](https://graphy-static.ams3.cdn.digitaloceanspaces.com/careers-alt.png)
-
 # Graphy Backend Coding Challenge
 
-Welcome!
 
-Use this file to write your README as if it was for a production service.
+## Running Locally
+`npm run dev` will run the express application locally and watch for changes made in the `src` typescript folder.
 
-Include these things:
+If you are using vscode, enable auto attach node process to make use of the vscode javascript debugger. You can do that with `command + shift + p` and selecting `Debug: Toggle Auto Attach`.
 
-- brief description of the solution
-- reasoning behind your technical choices
-- trade-offs you might have made or anything you left out
-- describe what you did differently (if anything)
-- what you might have done differently if you were to spend additional time on this solution
 
-Start here 👉 [Coding Challenge Guidelines](coding_challenge.md)
+## Description of Solution
+
+## Reasoning Behind Technical Choices
+
+## Trade-offs I Made or Anything I Left Out
+
+## What I Did Differently
+
+## What I Would Do Differently If I Were to Spend More Time On This
