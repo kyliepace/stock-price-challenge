@@ -19,4 +19,6 @@ Express architecture is based off of [bulletproof nodejs](https://softwareonther
 ## What I Did Differently
 
 ## What I Would Do Differently If I Were to Spend More Time On This
-- add a more sophisticated logger, for example winston, or if using GCP their logging client
+- containerize with Docker, depending on deployment strategy & infrastructure
+
+- use a cloud redis instance
