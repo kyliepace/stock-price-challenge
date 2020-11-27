@@ -32,10 +32,10 @@
     "mocha/no-nested-tests": "error",
     "array-callback-return": "off",
     "no-plusplus": "off",
-    "arrow-parens": ["error", "always"],
+    "arrow-parens": "off",
     "max-len": ["error", {"code": 250, "ignoreComments": true, "ignoreRegExpLiterals": true }],
     "import/no-unresolved": "off",
     "import/extensions": "off",
-    "import/prefer-default-export": "off"
+    "import/prefer-default-export": "off"  
   }
 }

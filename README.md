@@ -10,6 +10,9 @@ If you are using vscode, enable auto attach node process to make use of the vsco
 ## Description of Solution
 
 ## Reasoning Behind Technical Choices
+I love to build things as tiny lambda functions that can individually scale as needed, but running these locally can be trickier and the benefits of this architecture neither outweighted the negatives nor contributed to solving the challenge at hand.
+
+Express architecture is based off of [bulletproof nodejs](https://softwareontheroad.com/ideal-nodejs-project-structure/) ideas for route organisation.
 
 ## Trade-offs I Made or Anything I Left Out
 
