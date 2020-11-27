@@ -1,11 +1,30 @@
-/**
- * basic logger right now that just uses console logger
- */
-class Logger {
-  debug = (message: string, json?: object) => console.debug(message, json);
-  info = (message: string, json?: object) => console.info(message, json);
-  warn = (message: string, json?: object) => console.warn(message, json);
-  error = (message: string, json?: object) => console.error(message, json);
-}
+import { createLogger, format, transports, config } from 'winston';
+import * as rTracer from 'cls-rtracer';
+import * as constants from '../constants/config.json';
 
-export default new Logger();
+const { printf } = format;
+
+// a custom format that outputs request id
+const rTracerFormat = printf((info) => {
+  const rid = rTracer.id();
+  return rid
+    ? `[request-id:${rid}]: ${info.message}`
+    : `${info.message}`
+})
+
+const destination = [
+  new transports.Console()
+];
+
+const LoggerInstance = createLogger({
+  level: constants.logs.level,
+  levels: config.npm.levels,
+  format: format.combine(
+    rTracerFormat,
+    format.errors({ stack: true }),
+    format.splat()
+  ),
+  transports: destination
+});
+
+export default LoggerInstance;
