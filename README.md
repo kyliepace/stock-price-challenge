@@ -22,3 +22,5 @@ Express architecture is based off of [bulletproof nodejs](https://softwareonther
 - containerize with Docker, depending on deployment strategy & infrastructure
 
 - use a cloud redis instance
+
+- use redis pubsub functionality to make pipeline event-driven

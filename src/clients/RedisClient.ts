@@ -10,9 +10,9 @@ class RedisClient {
   client;
 
   // init redis; how to use: https://github.com/luin/ioredis#basic-usage
-  constructor() {
-    this.client = new Redis();
+  constructor(uri?: string) {
+    this.client = new Redis(uri);
   }
 }
 
-export default new RedisClient();
+export default new RedisClient(process.env.REDIS_URI);
