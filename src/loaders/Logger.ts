@@ -3,7 +3,7 @@ import generateNumber from "../helpers/pseudoRandomNumber";
 /**
  * basic logger right now that just uses console logger
  */
-class Logger {
+export class Logger {
   requestInfo?: {
     requestId: number
   }
@@ -14,11 +14,20 @@ class Logger {
     }
   }
 
-  log(method: Method, message: string, json?: object) {
-    console[method](message, {
+  logWithJson(method: Method, message: string, json?: object){
+    const structuredJson = {
       ...this.requestInfo,
       ...json
-    });
+    }
+    console[method](message, structuredJson);
+  }
+
+  log(method: Method, message: string, json?: object){
+    let structuredJson;
+    if (!!json || !!this.requestInfo){
+      return this.logWithJson(method, message, json);
+    }
+    return console[method](message);
   }
 
   debug(message: string, json?: object){
