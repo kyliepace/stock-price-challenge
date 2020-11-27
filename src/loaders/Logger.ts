@@ -1,58 +1,30 @@
-import generateNumber from "../helpers/pseudoRandomNumber";
+import { createLogger, format, transports, config } from 'winston';
+import * as rTracer from 'cls-rtracer';
+import * as constants from '../constants/config.json';
 
-/**
- * basic logger right now that just uses console logger
- */
-export class Logger {
-  requestInfo?: {
-    requestId: number
-  }
+const { printf } = format;
 
-  generateRequest(){
-    this.requestInfo = {
-      requestId: generateNumber()
-    }
-  }
+// a custom format that outputs request id
+const rTracerFormat = printf((info) => {
+  const rid = rTracer.id();
+  return rid
+    ? `[request-id:${rid}]: ${info.message}`
+    : `${info.message}`
+})
 
-  logWithJson(method: Method, message: string, json?: object){
-    const structuredJson = {
-      ...this.requestInfo,
-      ...json
-    }
-    console[method](message, structuredJson);
-  }
+const destination = [
+  new transports.Console()
+];
 
-  log(method: Method, message: string, json?: object){
-    let structuredJson;
-    if (!!json || !!this.requestInfo){
-      return this.logWithJson(method, message, json);
-    }
-    return console[method](message);
-  }
+const LoggerInstance = createLogger({
+  level: constants.logs.level,
+  levels: config.npm.levels,
+  format: format.combine(
+    rTracerFormat,
+    format.errors({ stack: true }),
+    format.splat()
+  ),
+  transports: destination
+});
 
-  debug(message: string, json?: object){
-    return this.log('debug' as Method, message, json);
-  }
-
-  info(message: string, json?: object){
-    return this.log('info' as Method, message, json);
-  }
-
-  warn(message: string, json?: object){
-    return this.log('warn' as Method, message, json);
-  }
-
-  error(message: string, json?: object){
-    return this.log('error' as Method, message, json);
-  }
-
-}
-
-enum Method {
-  debug = 'debug',
-  info = 'info',
-  warn = 'warn',
-  error = 'error'
-};
-
-export default new Logger();
+export default LoggerInstance;

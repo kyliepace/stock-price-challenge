@@ -1,7 +1,9 @@
 import express from 'express';
 import bodyParser from 'body-parser';
+import * as rTracer from 'cls-rtracer';
 import cors from 'cors';
 import morgan from 'morgan';
+import { handleError } from '../routes/middleware';
 import routes from '../routes';
 
 export default (app: express.Application ) => {
@@ -15,6 +17,12 @@ export default (app: express.Application ) => {
   // Middleware that transforms the raw string of req.body into json
   app.use(bodyParser.json());
 
-  // routes & error handling
+  // inject a request id
+  app.use(rTracer.expressMiddleware())
+
+  // routes
   app.use(routes());
+
+  // error handling
+  app.use(handleError)
 };
