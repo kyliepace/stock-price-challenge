@@ -1,11 +1,11 @@
-import Redis from 'ioredis';
+import RedisClient from "../clients/RedisClient";
+import RedisRepository from "../repositories/RedisRepository";
 
 class RedisService {
-  client;
+  repository;
 
-  // init redis; how to use: https://github.com/luin/ioredis#basic-usage
-  constructor() {
-    this.client = new Redis();
+  constructor(repository = new RedisRepository()) {
+    this.repository = repository;
   }
 }
 
