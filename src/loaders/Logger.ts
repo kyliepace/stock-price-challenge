@@ -17,7 +17,7 @@ const destination = [
 ];
 
 const LoggerInstance = createLogger({
-  level: constants.logs.level,
+  level: constants.logs.LEVEL,
   levels: config.npm.levels,
   format: format.combine(
     rTracerFormat,
