@@ -8,10 +8,6 @@ import logger from '../loaders/Logger';
  */
 export default class GraphService {
 
-  constructor() {
-
-  }
-
   /**
    * could use d3.extent to find min, max, too
    */
@@ -51,12 +47,72 @@ export default class GraphService {
     const x = this.scaleValues(data.values);
     const y = this.scaleDates(data.dates);
 
-    // put each scaledValue into an array [padding, x padding, x]
-    const plot = Object.values(data.values.reduce((plot: any, value, index) => {
+    // pass x and y to reducer function
+    const reducer = this.groupValues(x, y, data.dates);
+    // group all y values that exist for each x value
+    const groupedValues = this.buildRows(data.values, reducer)
+
+    const plot = this.buildPlot(groupedValues);
+    logger.info(plot)
+    return Promise.resolve(plot)
+  }
+
+  /**
+   * convert object with y values grouped by x value
+   * into a string divided by newlines
+   * where each row before a newline represents a price value
+   * and has markings separated by y-scaled time values
+   * @param groupedValues {[key: number]: number[]}
+   * @returns string as plot e.g.
+   *          x     x \n (this is the highest value and occured twice)
+   *    x             \n (this is the next highest value and occured once)
+   */
+  buildPlot(groupedValues: any): string{
+    return Object.values(groupedValues)
+    // start with the highest value so will have to reverse
+    .reverse()
+    .map((arrayOfTimes: any) => (
+      this.turnArrayIntoPaddedString(arrayOfTimes)
+    ))
+    .join('\n')
+  }
+
+  /**
+   * matching values to console log spaces
+   * @param arrayOfTimes array of scaled y values
+   * we want to translate each y scale unit into one space
+   */
+  turnArrayIntoPaddedString(arrayOfTimes: number[]){
+    return arrayOfTimes.map((spacing: number) => (
+      `${this.padSpaces(spacing)}x`
+    )).join('')
+  }
+
+  /**
+   * turn array of values into an object
+   * where each field equals a value
+   * and each value is an array of all the scaled timestamps 
+   * with that value
+   * @param values 
+   * @param reducer 
+   * @returns {[price value]: [y(date), y(date)]}
+   */
+  buildRows(values: number[], reducer: any){
+    return values.reduce(reducer, {});
+  }
+
+  /**
+   * 
+   * @param x x scaler function
+   * @param y y scaler function
+   * @param dates array of dates
+   */
+  groupValues(x: Function, y: Function, dates: number[]) {
+    return function reducer(plot: any, value: number, index: number){
       const scaledValue = x(value);
       let row = plot[scaledValue];
-      const time = y(data.dates[index]);
-      // row.push(time);
+      const time = y(dates[index]);
+  
       if (row){
         const calculatedSpaces = time - row[row.length - 1];
         if (calculatedSpaces > 0){
@@ -69,17 +125,7 @@ export default class GraphService {
       }
       plot[scaledValue] = row;
       return plot;
-    }, {}))
-      .reverse()
-      .map((x: any, index: number) => {
-        return x.map((spacing: number) => {
-          return `${this.padSpaces(spacing)}x`
-        }).join('')
-      })
-      .join('\n')
-
-    console.log(plot)
-    return Promise.resolve(plot)
+    }
   }
 
   padSpaces(spacing: number): string {
