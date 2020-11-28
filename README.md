@@ -4,8 +4,6 @@
 ## Running Locally
 `npm run dev` will run the express application locally and watch for changes made in the `src` typescript folder.
 
-If you are using vscode, enable auto attach node process to make use of the vscode javascript debugger. You can do that with `command + shift + p` and selecting `Debug: Toggle Auto Attach`.
-
 
 ## Description of Solution
 I broke the code into layers so all of the data retrieval logic is handled by the `services/DataService` class while all of the graphing logic is in `services/D3`. 
@@ -33,11 +31,19 @@ For redis I was tempted to make use of sorted sets and hashes instead of the ver
 In this alternative approach, data would not be duplicated in redis. I'd store the prices for a stock by day in a hashed index, and I'd set that hash key as the value in a sorted set, where each symbol has its own sorted set. Each date's epoch time value would be used to quickly query for time ranges. 
 The trade-off of this approach though is that, for one, at this point redis would be being used as a database for all stock data instead of as a cache of each request as described in the challenge instructions, and two, it introduces additional logic and complexity, most notably how to handle situations where only some of the data range exists in redis.
 
-The reason I stuck with the solution I did is because 1. I think it fits the use description better than the alternative, 2. it's simplier and as a dev I know it's very tempting to over complicate things 😄. 
+The reason I stuck with the solution I did is because 1. I think it fits the use description better than the alternative, 2. it's simplier and matches the stock data api response. As a dev I know it's very tempting to over complicate things 😄. 
 
 I didn't set an explicit expire time on the redis entries because I don't expect the price values to be changing, but a better understanding of the data source could warrant a change to the logic. In that case, the scope of change is limited to a single method on the DataService class.
 
+### queries
+
+Because the stock data api doesn't filter by price type and because I wanted to maintain consistency between the api and redis data sources, the data service layer knows nothing about the user's price parameter. 
+
 ## Trade-offs I Made or Anything I Left Out
+
+### queries
+
+By not filtering out the targeted price type from the api request, this solution opts for a larger redis value than is necessary for any client query. I could have broken up the stock data response so that each redis key represented the actual client request parameters with price type, but I chose against introducing this transformation step between api response and redis. If redis is being used truly as a cache of the data returned from the stock api for a given query, then I wanted to have it stash the response because that felt like the more expected behaviour. Plus, we could choose to add more query parameters later that I could imagine not working with pre-transformed redis data.
 
 ## What I Did Differently
 

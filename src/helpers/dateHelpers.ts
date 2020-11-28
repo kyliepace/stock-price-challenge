@@ -15,3 +15,7 @@ export function isDateStringFormat(input: string): boolean {
 export function isBefore(since: string, until: string): boolean {
   return new Date(since) < new Date(until);
 }
+
+export function toEpochTime(date: string): number{
+  return new Date(date).getTime();
+}
