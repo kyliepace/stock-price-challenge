@@ -1,4 +1,4 @@
-import RedisClient from "../clients/RedisClient";
+import RedisClient from '../clients/RedisClient';
 
 export default class RedisRepository {
   client;
@@ -7,11 +7,27 @@ export default class RedisRepository {
     this.client = client;
   }
 
-  save(key: string, value: string): Promise<string | null>{
+  save<T>(key: string, data: T): Promise<string | null> {
+    const value = this.parseDataToString(data);
     return this.client.set(key, value);
   }
 
-  find(key: string): Promise<string | null> {
-    return this.client.get(key);
+  async find<T>(key: string): Promise<T | null> {
+    const data = await this.client.get(key);
+    return this.parseDataToJson(data);
+  }
+
+  parseDataToJson<T>(data: string | null): T {
+    return !data ? 
+      null : 
+      typeof data === 'object' ?
+        data:
+        JSON.parse(data);
+  }
+
+  parseDataToString<T>(data: T): string {
+    return typeof data === 'string' ? 
+      data :
+      JSON.stringify(data);
   }
 }
