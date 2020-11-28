@@ -1,5 +1,6 @@
 {
   "logs": {
-    "level": "silly"
-  }
+    "LEVEL": "silly"
+  },
+  "STOCK_URL": "https://stock-data.graphy.now.sh"
 }

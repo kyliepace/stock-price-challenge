@@ -19,6 +19,12 @@ Express architecture is based off of [bulletproof nodejs](https://softwareonther
 ## What I Did Differently
 
 ## What I Would Do Differently If I Were to Spend More Time On This
+
+- more clever redis strategy, perhaps make use of a sorted range to store data by date and query a range of dates, so that stock data for a given day is not duplicated across different ranges
+
+- request body param validation
+
+
 - containerize with Docker, depending on deployment strategy & infrastructure
 
 - use a cloud redis instance
