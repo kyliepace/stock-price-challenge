@@ -34,7 +34,7 @@ export default class DataService {
     return this.apiRepository.find(params);
   }
 
-  buildKeyFromParams(params: IStockParams): string {
+  buildKeyFromParams(params: {[key: string]: any}): string {
     return Object.keys(params)
       .map(key => `${key}=${params[key]}`)
       .join('&');
