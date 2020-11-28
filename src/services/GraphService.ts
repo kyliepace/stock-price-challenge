@@ -2,6 +2,7 @@ import { scaleLinear } from 'd3-scale';
 import { extent } from 'd3-array';
 import IGraphData from '../interfaces/IGraphData';
 import logger from '../loaders/Logger';
+import * as constants from '../constants/config.json';
 
 /**
  * D3 service
@@ -22,7 +23,7 @@ export default class GraphService {
    * project the range of dates onto line chart
    */
   scaleDates(data: number[]){
-    return this.scale(data).rangeRound([0, 40])
+    return this.scale(data).rangeRound([0, constants.plot.X_MAX])
   }
 
   /**
@@ -30,7 +31,7 @@ export default class GraphService {
    * project the numbers onto line chart scale
    */
   scaleValues(data: number[]){
-    return this.scale(data).rangeRound([0, 20])
+    return this.scale(data).rangeRound([0, constants.plot.Y_MAX])
   }
 
   /**
@@ -38,19 +39,16 @@ export default class GraphService {
    * https://github.com/d3/d3-scale#linear-scales
    * https://observablehq.com/@d3/d3-scalelinear
    *
-   * @example
-   * const x = scaleLinear().domain([-100, 100]).range([0, 10]);
-   * x(35); // 6.75
-   * x(-80); // 1
    */
   draw(data: IGraphData): Promise<string>{
-    const x = this.scaleValues(data.values);
-    const y = this.scaleDates(data.dates);
+    const x = this.scaleDates(data.dates);
+    const y = this.scaleValues(data.values);
 
     // pass x and y to reducer function
     const reducer = this.groupValues(x, y, data.dates);
     // group all y values that exist for each x value
-    const groupedValues = this.buildRows(data.values, reducer)
+    const groupedValues = this.buildRows(data.values, reducer);
+    console.log(groupedValues)
 
     const plot = this.buildPlot(groupedValues);
     logger.info(plot)
@@ -68,25 +66,13 @@ export default class GraphService {
    *    x             \n (this is the next highest value and occured once)
    */
   buildPlot(groupedValues: any): string{
-    return Object.values(groupedValues)
+    return '\n' + Object.values(groupedValues)
     // start with the highest value so will have to reverse
     .reverse()
-    .map((arrayOfTimes: any) => (
-      this.turnArrayIntoPaddedString(arrayOfTimes)
-    ))
+    .map((arrayOfTimes: any) => arrayOfTimes.join(''))
     .join('\n')
   }
 
-  /**
-   * matching values to console log spaces
-   * @param arrayOfTimes array of scaled y values
-   * we want to translate each y scale unit into one space
-   */
-  turnArrayIntoPaddedString(arrayOfTimes: number[]){
-    return arrayOfTimes.map((spacing: number) => (
-      `${this.padSpaces(spacing)}x`
-    )).join('')
-  }
 
   /**
    * turn array of values into an object
@@ -102,33 +88,21 @@ export default class GraphService {
   }
 
   /**
-   * 
+   * return a function that will be used to group markers for each row
+   * each row is all the days that had a price value,
+   * where a value has been scaled & rounded to project onto chart
    * @param x x scaler function
    * @param y y scaler function
    * @param dates array of dates
    */
   groupValues(x: Function, y: Function, dates: number[]) {
     return function reducer(plot: any, value: number, index: number){
-      const scaledValue = x(value);
-      let row = plot[scaledValue];
-      const time = y(dates[index]);
-  
-      if (row){
-        const calculatedSpaces = time - row[row.length - 1];
-        if (calculatedSpaces > 0){
-          row.push(calculatedSpaces);
-        }
-        else row.unshift(time)
-      }
-      else {
-        row = [time]
-      }
+      const scaledValue = y(value);
+      let row = plot[scaledValue] || new Array(constants.plot.X_MAX).fill(' ');
+      const time = x(dates[index]); // this is the place in the row the mark needs to go
+      row.splice(time, 0, constants.plot.marker);
       plot[scaledValue] = row;
       return plot;
     }
-  }
-
-  padSpaces(spacing: number): string {
-    return new Array(spacing).fill('').join(' ')
   }
 } 

@@ -2,5 +2,10 @@
   "logs": {
     "LEVEL": "silly"
   },
-  "STOCK_URL": "https://stock-data.graphy.now.sh"
+  "STOCK_URL": "https://stock-data.graphy.now.sh",
+  "plot": {
+    "Y_MAX": 10,
+    "X_MAX": 10,
+    "marker": "x"
+  }
 }
