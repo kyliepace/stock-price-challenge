@@ -2,7 +2,7 @@
 
 
 ## Running Locally
-`npm run dev` will run the express application locally and watch for changes made in the `src` typescript folder.
+`npm run dev` will run the express application locally and watch for changes made in the `src` typescript folder. The service will be available at `http://localhost:8000/`
 
 
 ## Description of Solution
@@ -15,6 +15,10 @@ The incoming parameters are passed into a StockParams model to ensure typing and
 The DataService layer looks to see if that combination of stock + since/to dates has already been queried and if so, returns the data from redis. If it hasn't already been queried, the data is retried from the given api and saved to redis.
 
 The redis key is built from the required parameters and matches the parameters sent to the stock data api. The value is a stringified json of the nested `daily_prices` object returned from the stock api.
+
+I added an adaptor to transform the stock data into arrays of x and y axis data.
+
+The GraphService layer is responsible for scaling these arrays of data to the ranges defined by constants, and logging the results as an ASCII line graph.
 
 
 ## Reasoning Behind Technical Choices
@@ -49,13 +53,12 @@ By not filtering out the targeted price type from the api request, this solution
 
 ## What I Would Do Differently If I Were to Spend More Time On This
 
-- more clever redis strategy, perhaps make use of a sorted range to store data by date and query a range of dates, so that stock data for a given day is not duplicated across different ranges
-
-- request body param validation
-
+- more clever redis strategy, perhaps make use of a sorted range to store data by date and query a range of dates, so that stock data for a given day is not duplicated across different ranges, if the use case warranted it.
 
 - containerize with Docker, depending on deployment strategy & infrastructure
 
 - use a cloud redis instance
 
-- use redis pubsub functionality to make pipeline event-driven
+- use pubsub to make pipeline event-driven, so services can scale independently and require different levels of authorization
+
+- CI/CD pipeline to ensure linter and tests pass before merging branches or deploying
