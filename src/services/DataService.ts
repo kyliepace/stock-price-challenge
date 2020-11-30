@@ -2,6 +2,7 @@ import IStockParams from '../interfaces/IStockParams';
 import IStockData from '../interfaces/IStockData';
 import RedisRepository from '../repositories/RedisRepository';
 import StockDataRespository from '../repositories/StockDataRepository';
+import { Price } from '../enums/Price';
 
 /**
  * coordinate among different data sources
