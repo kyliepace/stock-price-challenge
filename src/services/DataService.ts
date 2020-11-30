@@ -2,6 +2,7 @@ import IStockParams from '../interfaces/IStockParams';
 import IStockData from '../interfaces/IStockData';
 import RedisRepository from '../repositories/RedisRepository';
 import StockDataRespository from '../repositories/StockDataRepository';
+import { Price } from '../enums/Price';
 
 /**
  * coordinate among different data sources
@@ -34,7 +35,7 @@ export default class DataService {
     return this.apiRepository.find(params);
   }
 
-  buildKeyFromParams(params: IStockParams): string {
+  buildKeyFromParams(params: {[key: string]: any}): string {
     return Object.keys(params)
       .map(key => `${key}=${params[key]}`)
       .join('&');
