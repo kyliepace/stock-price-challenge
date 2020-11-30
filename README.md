@@ -6,7 +6,7 @@
 
 
 ## Description of Solution
-I broke the code into layers so all of the data retrieval logic is handled by the `services/DataService` class while all of the graphing logic is in `services/D3`. 
+I broke the code into layers so all of the data retrieval logic is handled by the `services/DataService` class while all of the graphing logic is in `services/GraphService`. 
 
 I added a logging tracer library so that each incoming request will receive an id and all logs related to that request will be logged with that id, making querying the logs by request much easier.
 
