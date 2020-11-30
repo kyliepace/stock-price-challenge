@@ -2,7 +2,7 @@ import chai from 'chai';
 chai.use(require('sinon-chai'));
 import { createSandbox } from 'sinon';
 import axios from 'axios';
-import sampleResponse from '../../seed/stockApiResponse';
+import sampleResponse from '../../mock/stockApiResponse';
 import ApiClient from '../../src/clients/ApiClient';
 
 describe('clients > ApiClient', () => {

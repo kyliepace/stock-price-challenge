@@ -2,7 +2,7 @@ import chai from 'chai';
 import { createSandbox } from 'sinon';
 chai.use(require('sinon-chai'));
 import DataService from '../../src/services/DataService';
-import stockApiResponse from '../../seed/stockApiResponse';
+import stockApiResponse from '../../mock/stockApiResponse';
 
 describe('services > DataService', () => {
   let sandbox;
