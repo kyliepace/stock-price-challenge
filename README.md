@@ -2,6 +2,7 @@
 
 
 ## Running Locally
+first install all needed packages `yarn install` or `npm install`
 `npm run dev` will run the express application locally and watch for changes made in the `src` typescript folder. The service will be available at `http://localhost:8000/`
 
 
