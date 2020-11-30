@@ -1,8 +1,8 @@
-import { Price } from "../enums/Price";
-import { toEpochTime } from "../helpers/dateHelpers";
-import { toInt } from "../helpers/numberHelpers";
-import IGraphData from "../interfaces/IGraphData";
-import IStockData from "../interfaces/IStockData";
+import { Price } from '../enums/Price';
+import { toEpochTime } from '../helpers/dateHelpers';
+import { toInt } from '../helpers/numberHelpers';
+import IGraphData from '../interfaces/IGraphData';
+import IStockData from '../interfaces/IStockData';
 
 /**
  * transform and optionally filter stock price data
@@ -22,15 +22,27 @@ export default class StockToGraphAdaptor {
    */
   filter(price = Price.close): IGraphData {
     const data: IGraphData = {
-      dates: [],
-      values: []
+      x: [],
+      y: []
     };
 
     return Object.keys(this.data).reduce((graphData, dateString: string) => {
-      let filteredPrice = toInt(this.data[dateString][price]);
-      graphData.dates.push(toEpochTime(dateString));
-      graphData.values.push(filteredPrice);
+      const filteredPrice = toInt(this.data[dateString][price]);
+      graphData.x.push(toEpochTime(dateString));
+      graphData.y.push(filteredPrice);
       return graphData;
     }, data);
-  };
+  }
+
+
+  /**
+   * convert query params into a label string
+   */
+  makeLabel(labelObject: any): string {
+    return Object.keys(labelObject)
+      .map((key: string) => {
+        return `${key}: ${labelObject[key]} `
+      })
+      .join('')
+  }
 }

@@ -1,7 +1,7 @@
 import chai from 'chai';
 import { createSandbox } from 'sinon';
 chai.use(require('sinon-chai'));
-import sampleApiResponse from '../../seed/stockApiResponse';
+import sampleApiResponse from '../../mock/stockApiResponse';
 import RedisRepository from '../../src/repositories/RedisRepository';
 
 

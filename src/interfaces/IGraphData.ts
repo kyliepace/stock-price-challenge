@@ -1,4 +1,4 @@
 export default interface IGraphData {
-  dates: number[],
-  values: number[]
+  x: number[],
+  y: number[]
 }

@@ -1,14 +1,12 @@
-import express from 'express';
 import portfinder from 'portfinder';
 import loaders from './loaders';
 
 async function startServer() {
-  const app = express();
 
   /**
-   * load routes
+   * load express application
    **/
-  await loaders(app);
+  const app = await loaders();
 
   // find an open port
   portfinder.getPort((err, port) => {

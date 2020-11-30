@@ -15,11 +15,6 @@ export default class ApiClient {
     }
   }
 
-  async sendRequest(request: AxiosRequestConfig): Promise<any> {
-    const response = await axios.request(request);
-    return response.data;
-  }
-
   async get(path: string = '/', params?: any): Promise<any>{
     const request = this.buildRequest(path, 'get' as Method);
 
@@ -28,5 +23,10 @@ export default class ApiClient {
     }
 
     return this.sendRequest(request);
+  }
+
+  async sendRequest(request: AxiosRequestConfig): Promise<any> {
+    const response = await axios.request(request);
+    return response.data;
   }
 }
