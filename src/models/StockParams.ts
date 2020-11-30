@@ -1,5 +1,5 @@
-import { isDateStringFormat, isBefore } from "../helpers/dateHelpers";
-import IStockParams from "../interfaces/IStockParams";
+import { isDateStringFormat, isBefore } from '../helpers/dateHelpers';
+import IStockParams from '../interfaces/IStockParams';
 
 export default class StockParams implements IStockParams {
   symbol: string;

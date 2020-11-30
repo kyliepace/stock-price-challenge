@@ -16,7 +16,7 @@ export default class GraphService {
    */
   appendLabel(label?: string){
     if (label){
-      this.plot.concat(label);
+      this.plot = this.plot.concat(`\n` + label);
     }
     return this;
   }
@@ -42,15 +42,20 @@ export default class GraphService {
 
   /**
    * turn array of values into an object
-   * where each field equals a value
-   * and each value is an array of all the scaled timestamps 
-   * with that value
-   * @param values 
-   * @param reducer 
+   * each value is array of all the x coordinates that match to that y value,
+   * where the x and y points have been scaled & rounded to project onto chart
+   * 
    * @returns {[price value]: [y(date), y(date)]}
    */
-  buildRows(values: number[], reducer: any){
-    return values.reduce(reducer, {});
+  buildRows(xValues: number[], yValues: number[], x: Function, y: Function): object {
+    return yValues.reduce((plot: any, value: number, index: number) => {
+      const scaledValue = y(value);
+      const row = plot[scaledValue] || this.createRow();
+      const time = x(xValues[index]); // this is the place in the row the mark needs to go
+      row.splice(time, 0, constants.plot.marker);
+      plot[scaledValue] = row;
+      return plot;
+    }, {});
   }
 
   /**
@@ -68,41 +73,18 @@ export default class GraphService {
    *
    */
   draw(data: IGraphData, label?: string): Promise<string>{
-    const x = this.scaleDates(data.dates);
-    const y = this.scaleValues(data.values);
+    const x = this.scaleDates(data.x);
+    const y = this.scaleValues(data.y);
 
-    // pass x and y to reducer function
-    const reducer = this.groupValues(x, y, data.dates).bind(this);
-    
     // group all y values that exist for each x value
-    const groupedValues = this.buildRows(data.values, reducer);
-    console.log(groupedValues)
+    const groupedValues = this.buildRows(data.x, data.y, x, y);
 
     const { plot } = this
       .buildPlot(groupedValues)
       .appendLabel(label);
 
     logger.info(plot)
-    return Promise.resolve(plot)
-  }
-
-    /**
-   * return a function that will be used to group markers for each row
-   * each row is all the days that had a price value,
-   * where a value has been scaled & rounded to project onto chart
-   * @param x x scaler function
-   * @param y y scaler function
-   * @param dates array of dates
-   */
-  groupValues(x: Function, y: Function, dates: number[]) {
-    return function reducer(plot: any, value: number, index: number){
-      const scaledValue = y(value);
-      const row = plot[scaledValue] || this.createRow();
-      const time = x(dates[index]); // this is the place in the row the mark needs to go
-      row.splice(time, 0, constants.plot.marker);
-      plot[scaledValue] = row;
-      return plot;
-    }
+    return Promise.resolve(plot);
   }
 
   /**

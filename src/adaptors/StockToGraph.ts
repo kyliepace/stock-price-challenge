@@ -22,14 +22,14 @@ export default class StockToGraphAdaptor {
    */
   filter(price = Price.close): IGraphData {
     const data: IGraphData = {
-      dates: [],
-      values: []
+      x: [],
+      y: []
     };
 
     return Object.keys(this.data).reduce((graphData, dateString: string) => {
       const filteredPrice = toInt(this.data[dateString][price]);
-      graphData.dates.push(toEpochTime(dateString));
-      graphData.values.push(filteredPrice);
+      graphData.x.push(toEpochTime(dateString));
+      graphData.y.push(filteredPrice);
       return graphData;
     }, data);
   }
@@ -41,7 +41,7 @@ export default class StockToGraphAdaptor {
   makeLabel(labelObject: any): string {
     return Object.keys(labelObject)
       .map((key: string) => {
-        return `${key}: ${labelObject[key]}`
+        return `${key}: ${labelObject[key]} `
       })
       .join('')
   }

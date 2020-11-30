@@ -4,8 +4,8 @@
   },
   "STOCK_URL": "https://stock-data.graphy.now.sh",
   "plot": {
+    "X_MAX": 43,
     "Y_MAX": 10,
-    "X_MAX": 10,
     "marker": "x"
   }
 }
