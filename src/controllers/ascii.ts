@@ -30,5 +30,6 @@ export default async function(req: Request, res: Response) {
   const transformedData = stockToGraphAdaptor.filter(req.query.price as Price);
   const label = stockToGraphAdaptor.makeLabel(req.query);
   const plot = await graphService.draw(transformedData, label);
-  res.status(200).json(plot);
+  res.type('text/plain');
+  res.status(200).send(plot);
 }
